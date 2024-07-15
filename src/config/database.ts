@@ -15,6 +15,8 @@ let PASSWORD = process.env.PASSWORD;
 let HOST = process.env.HOST;
 let PORT = parseInt(process.env.PORT);
 
+const DATABASE_URL = process.env.DATABASE_URL;
+
 if (process.env.NODE_ENV === 'test') {
   DATABASE = process.env.DATABASE_TEST;
   USERNAME = process.env.DB_USER_TEST;
@@ -25,17 +27,22 @@ if (process.env.NODE_ENV === 'test') {
 
 //console.log("\n\n user name", USERNAME, PASSWORD)
 
-const sequelize = new Sequelize(DATABASE, USERNAME, PASSWORD, {
-  host: HOST,
-  port: PORT,
-  dialect: 'postgres',
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  }
-});
+
+let sequelize = null
+
+if(DATABASE_URL) {
+  sequelize = new Sequelize(DATABASE_URL, {
+    dialect: 'postgres',
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 3000000,
+      idle: 1000000
+    }
+  });
+}
+
+
 
 sequelize
   .authenticate()
