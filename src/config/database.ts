@@ -25,13 +25,21 @@ if (process.env.NODE_ENV === 'test') {
   PORT = parseInt(process.env.PORT_TEST);
 }
 
-//console.log("\n\n user name", USERNAME, PASSWORD)
 
-
-let sequelize = null
+let sequelize = new Sequelize(DATABASE, USERNAME, PASSWORD, {
+  host: HOST,
+  port: PORT,
+  dialect: 'postgres',
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000
+  }
+});
 
 if(DATABASE_URL) {
-sequelize = new Sequelize(DATABASE_URL, { ssl: true });
+sequelize = new Sequelize(DATABASE_URL);
 }
 
 
