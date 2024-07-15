@@ -31,15 +31,7 @@ if (process.env.NODE_ENV === 'test') {
 let sequelize = null
 
 if(DATABASE_URL) {
-  sequelize = new Sequelize(DATABASE_URL, {
-    dialect: 'postgres',
-    pool: {
-      max: 5,
-      min: 0,
-      acquire: 3000000,
-      idle: 1000000
-    }
-  });
+sequelize = new Sequelize(DATABASE_URL, { ssl: true });
 }
 
 
