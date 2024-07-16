@@ -24,7 +24,7 @@ class App {
   constructor() {
     this.app = express();
     this.host = process.env.APP_HOST;
-    this.port = process.env.APP_PORT;
+    this.port = process.env.PORT;
     this.api_version = process.env.API_VERSION;
 
     this.initializeMiddleWares();

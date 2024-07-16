@@ -13,7 +13,7 @@ let DATABASE = process.env.DATABASE;
 let USERNAME = process.env.DB_USER;
 let PASSWORD = process.env.PASSWORD;
 let HOST = process.env.HOST;
-let PORT = parseInt(process.env.PORT);
+let PORT = parseInt(process.env.DB_PORT);
 
 const DATABASE_URL = process.env.DATABASE_URL;
 
@@ -25,8 +25,14 @@ if (process.env.NODE_ENV === 'test') {
   PORT = parseInt(process.env.PORT_TEST);
 }
 
+let sequelize;
 
-let sequelize = new Sequelize(DATABASE, USERNAME, PASSWORD, {
+if(DATABASE_URL) {
+  sequelize = new Sequelize(DATABASE_URL);
+}
+
+else {
+  sequelize = new Sequelize(DATABASE, USERNAME, PASSWORD, {
   host: HOST,
   port: PORT,
   dialect: 'postgres',
@@ -37,9 +43,6 @@ let sequelize = new Sequelize(DATABASE, USERNAME, PASSWORD, {
     idle: 10000
   }
 });
-
-if(DATABASE_URL) {
-sequelize = new Sequelize(DATABASE_URL);
 }
 
 
